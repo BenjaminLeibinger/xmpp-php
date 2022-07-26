@@ -51,10 +51,10 @@ class Socket
     {
         try {
             fwrite($this->connection, $xml);
-            $this->options->getLogger()->logRequest(__METHOD__.'::'.__LINE__." $xml");
+            $this->options->getLogger()->info(sprintf('REQUEST %s', $this->getMethodMessage()), ['xml' => $xml]);
             // $this->checkSocketStatus();
         } catch (Exception $e) {
-            $this->options->getLogger()->error(__METHOD__.'::'.__LINE__.' fwrite() failed '.$e->getMessage());
+            $this->options->getLogger()->error(sprintf('REQUEST %s fwrite() failed %s', $this->getMethodMessage(), $e->getMessage()));
 
             return;
         }
@@ -74,7 +74,7 @@ class Socket
         }
 
         $this->responseBuffer->write($response);
-        $this->options->getLogger()->logResponse(__METHOD__.'::'.__LINE__." $response");
+        $this->options->getLogger()->info(sprintf('RESPONSE %s', $this->getMethodMessage()), ['response' => $response]);
     }
 
     protected function isAlive($socket)
@@ -104,10 +104,13 @@ class Socket
         // echo print_r($status);
 
         if ($status['eof']) {
-            $this->options->getLogger()->logResponse(
-                __METHOD__.'::'.__LINE__.
-                " ---Probably a broken pipe, restart connection\n"
-            );
+            $message = sprintf('REQUEST %s ---Probably a broken pipe, restart connection', $this->getMethodMessage());
+            $this->options->getLogger()->info($message, ['status' => $status]);
         }
+    }
+
+    protected function getMethodMessage(): string
+    {
+        return sprintf('%s::%s', __METHOD__, __LINE__);
     }
 }

@@ -20,13 +20,4 @@ abstract class Stanza
     {
         return uniqid();
     }
-
-    protected function readResponseFile()
-    {
-        $logger = $this->socket->getOptions()->getLogger();
-        $responseFilePath = $logger->getFilePathFromResource($logger->log);
-        $responseFile = fopen($responseFilePath, 'r');
-
-        return fread($responseFile, filesize($responseFilePath));
-    }
 }

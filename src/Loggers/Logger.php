@@ -3,66 +3,80 @@
 namespace Norgul\Xmpp\Loggers;
 
 use Exception;
+use Psr\Log\LoggerInterface;
 
-class Logger implements Loggable
+class Logger implements LoggerInterface
 {
-    public $log;
+    private string $logFolder;
+    private string $logFile;
 
-    public const LOG_FOLDER = 'logs';
-    public const LOG_FILE = 'xmpp.log';
-
-    public function __construct()
+    public function __construct(?string $logFolder = null, ?string $logFile = null)
     {
-        $this->createLogFile();
-        $this->log = fopen(self::LOG_FOLDER.'/'.self::LOG_FILE, 'a');
+        $this->logFolder = $logFolder ?? 'logs';
+        $this->logFile = sprintf('%s/%s', $this->logFolder, $logFile ?? 'xmpp.log');
+
+        $this->createLogDir();
     }
 
-    protected function createLogFile(): void
+    protected function createLogDir(): void
     {
-        if (!file_exists(self::LOG_FOLDER)) {
-            mkdir(self::LOG_FOLDER, 0777, true);
+        if (!file_exists($this->logFolder)) {
+            mkdir($this->logFolder, 0777, true);
         }
-    }
-
-    public function log($message)
-    {
-        $this->writeToLog($message);
-    }
-
-    public function logRequest($message)
-    {
-        $this->writeToLog($message, 'REQUEST');
-    }
-
-    public function logResponse($message)
-    {
-        $this->writeToLog($message, 'RESPONSE');
-    }
-
-    public function error($message)
-    {
-        $this->writeToLog($message, 'ERROR');
-    }
-
-    protected function writeToLog($message, $type = ''): void
-    {
-        $prefix = date('Y.m.d H:i:s').' '.session_id().($type ? " {$type}::" : ' ');
-        $this->writeToFile($this->log, $prefix."$message\n");
     }
 
     protected function writeToFile($file, $message)
     {
         try {
-            fwrite($file, $message);
+            file_put_contents($file, $message, FILE_APPEND);
         } catch (Exception $e) {
             // silent fail
         }
     }
 
-    public function getFilePathFromResource($resource): string
+    public function emergency(string|\Stringable $message, array $context = []): void
     {
-        $metaData = stream_get_meta_data($resource);
+        $this->log('EMERGENCY', $message, $context);
+    }
 
-        return $metaData['uri'];
+    public function alert(string|\Stringable $message, array $context = []): void
+    {
+        $this->log('ALERT', $message, $context);
+    }
+
+    public function critical(string|\Stringable $message, array $context = []): void
+    {
+        $this->log('CRITICAL', $message, $context);
+    }
+
+    public function error(string|\Stringable $message, array $context = []): void
+    {
+        $this->log('ERROR', $message, $context);
+    }
+
+    public function warning(string|\Stringable $message, array $context = []): void
+    {
+        $this->log('WARNING', $message, $context);
+    }
+
+    public function notice(string|\Stringable $message, array $context = []): void
+    {
+        $this->log('NOTICE', $message, $context);
+    }
+
+    public function info(string|\Stringable $message, array $context = []): void
+    {
+        $this->log('INFO', $message, $context);
+    }
+
+    public function debug(string|\Stringable $message, array $context = []): void
+    {
+        $this->log('DEBUG', $message, $context);
+    }
+
+    public function log($level, string|\Stringable $message, array $context = []): void
+    {
+        $prefix = date('Y.m.d H:i:s').' '.session_id().($level ? " {$level}::" : ' ');
+        $this->writeToFile($this->logFile, sprintf('%s %s %s', $prefix, $message, json_encode($context)));
     }
 }

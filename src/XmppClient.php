@@ -122,7 +122,7 @@ class XmppClient
         try {
             self::checkForUnrecoverableErrors($response);
         } catch (StreamError $e) {
-            $this->options->getLogger()->logResponse(__METHOD__.'::'.__LINE__." $response");
+            $this->options->getLogger()->info('RESPONSE '.__METHOD__.'::'.__LINE__, ['response' => $response]);
             $this->options->getLogger()->error(__METHOD__.'::'.__LINE__.' '.$e->getMessage());
             $this->reconnect();
             $response = '';

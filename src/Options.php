@@ -4,9 +4,9 @@ namespace Norgul\Xmpp;
 
 use Norgul\Xmpp\AuthTypes\Authenticable;
 use Norgul\Xmpp\AuthTypes\Plain;
-use Norgul\Xmpp\Loggers\Loggable;
 use Norgul\Xmpp\Loggers\Logger;
 use Psr\Log\InvalidArgumentException;
+use Psr\Log\LoggerInterface;
 
 class Options
 {
@@ -36,10 +36,8 @@ class Options
     protected $resource;
     /**
      * Custom logger interface.
-     *
-     * @var Loggable
      */
-    protected $logger;
+    protected ?LoggerInterface $logger = null;
     /**
      * Use TLS if available.
      */
@@ -181,7 +179,7 @@ class Options
         return "$username@$host";
     }
 
-    public function setLogger(Loggable $logger)
+    public function setLogger(LoggerInterface $logger)
     {
         $this->logger = $logger;
     }
