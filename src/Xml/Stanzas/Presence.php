@@ -4,8 +4,8 @@ namespace Norgul\Xmpp\Xml\Stanzas;
 
 class Presence extends Stanza
 {
-    const PRIORITY_UPPER_BOUND = 127;
-    const PRIORITY_LOWER_BOUND = -128;
+    public const PRIORITY_UPPER_BOUND = 127;
+    public const PRIORITY_LOWER_BOUND = -128;
 
     public function subscribe(string $to)
     {
@@ -27,7 +27,7 @@ class Presence extends Stanza
         $this->setPresence($from, 'unsubscribed');
     }
 
-    protected function setPresence(string $to, string $type = "subscribe")
+    protected function setPresence(string $to, string $type = 'subscribe')
     {
         $xml = "<presence from='{$this->socket->getOptions()->bareJid()}' to='{$to}' type='{$type}'/>";
         $this->socket->send($xml);
@@ -35,16 +35,14 @@ class Presence extends Stanza
 
     /**
      * Set priority to current resource by default, or optional other resource tied to the
-     * current username
-     * @param int $value
-     * @param string|null $forResource
+     * current username.
      */
     public function setPriority(int $value, string $forResource = null)
     {
         $from = self::quote($this->socket->getOptions()->fullJid());
 
         if ($forResource) {
-            $from = $this->socket->getOptions()->getUsername() . "/$forResource";
+            $from = $this->socket->getOptions()->getUsername()."/$forResource";
         }
 
         $priority = "<priority>{$this->limitPriority($value)}</priority>";

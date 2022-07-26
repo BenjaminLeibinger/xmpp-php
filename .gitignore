@@ -1,5 +1,4 @@
 vendor/
-composer.lock
 .DS_Store
 /node_modules
 /vendor
@@ -13,6 +12,7 @@ composer.lock
 npm-debug.log
 yarn-error.log
 .phpunit.result.cache
+.php-cs-fixer.cache
 
 Example2\.php
 

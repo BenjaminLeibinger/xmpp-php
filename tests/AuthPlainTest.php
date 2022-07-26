@@ -7,11 +7,11 @@ use PHPUnit\Framework\TestCase;
 class AuthPlainTest extends TestCase
 {
     /**
-     * @var $plainAuth Plain
+     * @var Plain
      */
     public $plainAuth;
     /**
-     * @var $optionsStub Options
+     * @var Options
      */
     public $optionsStub;
 
@@ -26,6 +26,6 @@ class AuthPlainTest extends TestCase
 
     public function testIfCredentialsAreEncodedRight()
     {
-        $this->assertEquals("AEZvbwBCYXI=", $this->plainAuth->encodedCredentials());
+        $this->assertEquals('AEZvbwBCYXI=', $this->plainAuth->encodedCredentials());
     }
 }

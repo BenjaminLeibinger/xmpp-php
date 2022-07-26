@@ -7,11 +7,11 @@ use PHPUnit\Framework\TestCase;
 class DigestMD5Test extends TestCase
 {
     /**
-     * @var $digestAuth DigestMD5
+     * @var DigestMD5
      */
     public $digestAuth;
     /**
-     * @var $optionsStub Options
+     * @var Options
      */
     public $optionsStub;
 
@@ -26,6 +26,6 @@ class DigestMD5Test extends TestCase
 
     public function testIfCredentialsAreEncodedRight()
     {
-        $this->assertEquals("80e25ae4140c338afbe621c1b3d7a9ec9480f731", $this->digestAuth->encodedCredentials());
+        $this->assertEquals('80e25ae4140c338afbe621c1b3d7a9ec9480f731', $this->digestAuth->encodedCredentials());
     }
 }

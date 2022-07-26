@@ -4,7 +4,7 @@ namespace Norgul\Xmpp\Xml\Stanzas;
 
 class Message extends Stanza
 {
-    public function send(string $body, string $to, string $type = "chat")
+    public function send(string $body, string $to, string $type = 'chat')
     {
         $xml = $this->generateMessageXml($body, $to, $type);
         $this->socket->send($xml);
@@ -14,7 +14,8 @@ class Message extends Stanza
     {
         $this->socket->receive();
         $rawResponse = $this->socket->getResponseBuffer()->read();
-        return self::parseTag($rawResponse, "message");
+
+        return self::parseTag($rawResponse, 'message');
     }
 
     protected function generateMessageXml(string $body, string $to, string $type): string

@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 class ResponseBufferTest extends TestCase
 {
     /**
-     * @var $buffer Response
+     * @var Response
      */
     public $buffer;
 
@@ -17,8 +17,8 @@ class ResponseBufferTest extends TestCase
 
     public function testWriteString()
     {
-        $this->buffer->write("test");
-        $this->assertEquals(["test"], $this->buffer->getCurrentBufferData());
+        $this->buffer->write('test');
+        $this->assertEquals(['test'], $this->buffer->getCurrentBufferData());
     }
 
     public function testWriteNumber()
@@ -29,7 +29,7 @@ class ResponseBufferTest extends TestCase
 
     public function testWriteEmpty()
     {
-        $this->buffer->write("");
+        $this->buffer->write('');
         $this->assertEquals(null, $this->buffer->getCurrentBufferData());
     }
 
@@ -41,21 +41,21 @@ class ResponseBufferTest extends TestCase
 
     public function testRead()
     {
-        $this->buffer->write("test");
+        $this->buffer->write('test');
         $response = $this->buffer->read();
-        $this->assertEquals("test", $response);
+        $this->assertEquals('test', $response);
     }
 
     public function testReadNullInput()
     {
         $this->buffer->write(null);
         $response = $this->buffer->read();
-        $this->assertEquals("", $response);
+        $this->assertEquals('', $response);
     }
 
     public function testFlushWithInput()
     {
-        $this->buffer->write("test");
+        $this->buffer->write('test');
         $this->buffer->read();
         $this->assertEquals(null, $this->buffer->getCurrentBufferData());
     }

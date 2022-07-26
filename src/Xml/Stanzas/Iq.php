@@ -24,7 +24,6 @@ class Iq extends Stanza
 
     public function removeFromRoster(string $jid, string $myJid)
     {
-
         $item = "<item jid='{$jid}' subscription='remove'/>";
         $query = "<query xmlns='jabber:iq:roster'>{$item}</query>";
         $xml = "<iq type='set' id='{$this->uniqueId()}' from='{$myJid}'>{$query}</iq>";

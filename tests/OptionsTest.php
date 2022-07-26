@@ -12,7 +12,7 @@ class OptionsTest extends TestCase
     protected $password;
 
     /**
-     * @var $options Options
+     * @var Options
      */
     public $options;
 
@@ -105,17 +105,17 @@ class OptionsTest extends TestCase
 
     public function testFullSocketAddress()
     {
-        $this->assertEquals("tcp://www.host.com:5222", $this->options->fullSocketAddress());
+        $this->assertEquals('tcp://www.host.com:5222', $this->options->fullSocketAddress());
     }
 
     public function testFullJid()
     {
         $this->options->setResource('resource');
-        $this->assertEquals("foo@www.host.com/resource", $this->options->fullJid());
+        $this->assertEquals('foo@www.host.com/resource', $this->options->fullJid());
     }
 
     public function testBareJid()
     {
-        $this->assertEquals("foo@www.host.com", $this->options->bareJid());
+        $this->assertEquals('foo@www.host.com', $this->options->bareJid());
     }
 }

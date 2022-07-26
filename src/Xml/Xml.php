@@ -8,7 +8,9 @@ trait Xml
 {
     /**
      * Opening tag for starting a XMPP stream exchange.
+     *
      * @param $host
+     *
      * @return string
      */
     public static function openXmlStream($host)
@@ -23,7 +25,7 @@ trait Xml
     }
 
     /**
-     * Closing tag for one XMPP stream session
+     * Closing tag for one XMPP stream session.
      */
     public static function closeXmlStream()
     {
@@ -46,12 +48,13 @@ trait Xml
 
     public static function parseFeatures($xml)
     {
-        return self::matchInsideOfTag($xml, "stream:features");
+        return self::matchInsideOfTag($xml, 'stream:features');
     }
 
     public static function isTlsSupported($xml)
     {
-        $matchTag = self::matchCompleteTag($xml, "starttls");
+        $matchTag = self::matchCompleteTag($xml, 'starttls');
+
         return !empty($matchTag);
     }
 
@@ -61,49 +64,55 @@ trait Xml
             return false;
         }
 
-        $tls = self::matchCompleteTag($xml, "starttls");
-        preg_match("#required#", $tls, $match);
+        $tls = self::matchCompleteTag($xml, 'starttls');
+        preg_match('#required#', $tls, $match);
+
         return count($match) > 0;
     }
 
     public static function matchCompleteTag($xml, $tag)
     {
         $match = self::matchTag($xml, $tag);
+
         return is_array($match) && count($match) > 0 ? $match[0] : [];
     }
 
     public static function matchInsideOfTag($xml, $tag)
     {
         $match = self::matchTag($xml, $tag);
+
         return is_array($match) && count($match) > 1 ? $match[1] : [];
     }
 
     private static function matchTag($xml, $tag)
     {
         preg_match("#<$tag.*?>(.*)<\/$tag>#", $xml, $match);
+
         return count($match) < 1 ? '' : $match;
     }
 
     public static function canProceed($xml)
     {
         preg_match("#<proceed xmlns=[\'|\"]urn:ietf:params:xml:ns:xmpp-tls[\'|\"]\/>#", $xml, $match);
+
         return count($match) > 0;
     }
 
     public static function supportedAuthMethods($xml)
     {
         preg_match_all("#<mechanism>(.*?)<\/mechanism>#", $xml, $match);
+
         return count($match) < 1 ? [] : $match[1];
     }
 
     public static function roster($xml)
     {
         preg_match_all("#<iq.*?type=[\'|\"]result[\'|\"]>(.*?)<\/iq>#", $xml, $match);
+
         return count($match) < 1 ? [] : $match[1];
     }
 
     /**
-     * @param string $response
      * @throws StreamError
      */
     public static function checkForUnrecoverableErrors(string $response)

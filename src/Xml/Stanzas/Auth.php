@@ -30,8 +30,9 @@ class Auth extends Stanza
         $response = $this->socket->getResponseBuffer()->read();
 
         if (!self::canProceed($response)) {
-            $this->socket->getOptions()->getLogger()->error(__METHOD__ . '::' . __LINE__ .
-                " TLS authentication failed. Trying to continue but will most likely fail.");
+            $this->socket->getOptions()->getLogger()->error(__METHOD__.'::'.__LINE__.
+                ' TLS authentication failed. Trying to continue but will most likely fail.');
+
             return;
         }
 
@@ -42,7 +43,7 @@ class Auth extends Stanza
     {
         $mechanism = $authType->getName();
         $encodedCredentials = $authType->encodedCredentials();
-        $nameSpace = "urn:ietf:params:xml:ns:xmpp-sasl";
+        $nameSpace = 'urn:ietf:params:xml:ns:xmpp-sasl';
 
         return "<auth xmlns='{$nameSpace}' mechanism='{$mechanism}'>{$encodedCredentials}</auth>";
     }

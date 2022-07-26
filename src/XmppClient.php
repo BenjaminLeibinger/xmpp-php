@@ -14,25 +14,25 @@ class XmppClient
     use Xml;
 
     /**
-     * @var $socket Socket
+     * @var Socket
      */
     protected $socket;
     protected $options;
 
     /**
-     * @var $auth Auth
+     * @var Auth
      */
     public $auth;
     /**
-     * @var $iq Iq
+     * @var Iq
      */
     public $iq;
     /**
-     * @var $presence Presence
+     * @var Presence
      */
     public $presence;
     /**
-     * @var $message Message
+     * @var Message
      */
     public $message;
 
@@ -106,7 +106,7 @@ class XmppClient
 
     protected function initSession()
     {
-        if (session_status() === PHP_SESSION_NONE) {
+        if (PHP_SESSION_NONE === session_status()) {
             session_id(uniqid());
             session_start();
         }
@@ -122,11 +122,12 @@ class XmppClient
         try {
             self::checkForUnrecoverableErrors($response);
         } catch (StreamError $e) {
-            $this->options->getLogger()->logResponse(__METHOD__ . '::' . __LINE__ . " $response");
-            $this->options->getLogger()->error(__METHOD__ . '::' . __LINE__ . " " . $e->getMessage());
+            $this->options->getLogger()->logResponse(__METHOD__.'::'.__LINE__." $response");
+            $this->options->getLogger()->error(__METHOD__.'::'.__LINE__.' '.$e->getMessage());
             $this->reconnect();
             $response = '';
         }
+
         return $response;
     }
 

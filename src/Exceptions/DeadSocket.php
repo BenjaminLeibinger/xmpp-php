@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Norgul\Xmpp\Exceptions;
 
 use Exception;

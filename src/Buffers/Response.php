@@ -17,6 +17,7 @@ class Response implements Buffer
     {
         $implodedResponse = $this->response ? implode('', $this->response) : '';
         $this->flush();
+
         return $implodedResponse;
     }
 

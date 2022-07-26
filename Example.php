@@ -4,8 +4,8 @@ namespace Norgul\Xmpp;
 
 class Example
 {
-    protected static $host     = 'host.example.com';
-    protected static $port     = 5222;
+    protected static $host = 'host.example.com';
+    protected static $port = 5222;
     protected static $username = 'foo';
     protected static $password = 'bar';
 
@@ -29,10 +29,10 @@ class Example
         // Uncomment if you want to manually enter raw XML (or call a function) and see a server response
 //        (new self)->sendRawXML($client);
 
-        do {
+        while (true) {
             $response = $client->getResponse();
             $client->prettyPrint($response);
-        } while (true);
+        }
 
         $client->disconnect();
     }
@@ -47,7 +47,7 @@ class Example
             // the function will be called instead of sending raw XML
             $line = readline("\nEnter XML: ");
 
-            if ($line == 'exit') {
+            if ('exit' == $line) {
                 break;
             }
 
@@ -67,8 +67,8 @@ class Example
                 continue;
             }
 
-            echo "This is not a method nor a valid XML";
-        } while ($line != 'exit');
+            echo 'This is not a method nor a valid XML';
+        } while ('exit' != $line);
     }
 }
 
@@ -76,5 +76,5 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-require __DIR__ . '/vendor/autoload.php';
+require __DIR__.'/vendor/autoload.php';
 Example::test();

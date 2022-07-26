@@ -8,13 +8,13 @@ class Logger implements Loggable
 {
     public $log;
 
-    const LOG_FOLDER = "logs";
-    const LOG_FILE = "xmpp.log";
+    public const LOG_FOLDER = 'logs';
+    public const LOG_FILE = 'xmpp.log';
 
     public function __construct()
     {
         $this->createLogFile();
-        $this->log = fopen(self::LOG_FOLDER . '/' . self::LOG_FILE, 'a');
+        $this->log = fopen(self::LOG_FOLDER.'/'.self::LOG_FILE, 'a');
     }
 
     protected function createLogFile(): void
@@ -31,23 +31,23 @@ class Logger implements Loggable
 
     public function logRequest($message)
     {
-        $this->writeToLog($message, "REQUEST");
+        $this->writeToLog($message, 'REQUEST');
     }
 
     public function logResponse($message)
     {
-        $this->writeToLog($message, "RESPONSE");
+        $this->writeToLog($message, 'RESPONSE');
     }
 
     public function error($message)
     {
-        $this->writeToLog($message, "ERROR");
+        $this->writeToLog($message, 'ERROR');
     }
 
     protected function writeToLog($message, $type = ''): void
     {
-        $prefix = date("Y.m.d H:i:s") . " " . session_id() . ($type ? " {$type}::" : " ");
-        $this->writeToFile($this->log, $prefix . "$message\n");
+        $prefix = date('Y.m.d H:i:s').' '.session_id().($type ? " {$type}::" : ' ');
+        $this->writeToFile($this->log, $prefix."$message\n");
     }
 
     protected function writeToFile($file, $message)
@@ -62,6 +62,7 @@ class Logger implements Loggable
     public function getFilePathFromResource($resource): string
     {
         $metaData = stream_get_meta_data($resource);
-        return $metaData["uri"];
+
+        return $metaData['uri'];
     }
 }

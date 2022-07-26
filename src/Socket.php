@@ -14,13 +14,13 @@ class Socket
     protected $options;
 
     /**
-     * Period in microseconds for imposed timeout while doing socket_read()
+     * Period in microseconds for imposed timeout while doing socket_read().
      */
     protected $timeout = 150000;
 
     /**
      * Socket constructor.
-     * @param Options $options
+     *
      * @throws DeadSocket
      */
     public function __construct(Options $options)
@@ -32,7 +32,7 @@ class Socket
             throw new DeadSocket();
         }
 
-        //stream_set_blocking($this->connection, true);
+        // stream_set_blocking($this->connection, true);
         stream_set_timeout($this->connection, 0, $this->timeout);
         $this->options = $options;
     }
@@ -43,17 +43,19 @@ class Socket
     }
 
     /**
-     * Sending XML stanzas to open socket
+     * Sending XML stanzas to open socket.
+     *
      * @param $xml
      */
     public function send(string $xml)
     {
         try {
             fwrite($this->connection, $xml);
-            $this->options->getLogger()->logRequest(__METHOD__ . '::' . __LINE__ . " $xml");
-            //$this->checkSocketStatus();
+            $this->options->getLogger()->logRequest(__METHOD__.'::'.__LINE__." $xml");
+            // $this->checkSocketStatus();
         } catch (Exception $e) {
-            $this->options->getLogger()->error(__METHOD__ . '::' . __LINE__ . " fwrite() failed " . $e->getMessage());
+            $this->options->getLogger()->error(__METHOD__.'::'.__LINE__.' fwrite() failed '.$e->getMessage());
+
             return;
         }
 
@@ -72,12 +74,12 @@ class Socket
         }
 
         $this->responseBuffer->write($response);
-        $this->options->getLogger()->logResponse(__METHOD__ . '::' . __LINE__ . " $response");
+        $this->options->getLogger()->logResponse(__METHOD__.'::'.__LINE__." $response");
     }
 
     protected function isAlive($socket)
     {
-        return $socket !== false;
+        return false !== $socket;
     }
 
     public function setTimeout($timeout)
@@ -99,11 +101,11 @@ class Socket
     {
         $status = socket_get_status($this->connection);
 
-        //echo print_r($status);
+        // echo print_r($status);
 
         if ($status['eof']) {
             $this->options->getLogger()->logResponse(
-                __METHOD__ . '::' . __LINE__ .
+                __METHOD__.'::'.__LINE__.
                 " ---Probably a broken pipe, restart connection\n"
             );
         }
