@@ -31,6 +31,11 @@ class XmppClient
         $this->initDependencies();
     }
 
+    public function getOptions(): Options
+    {
+        return $this->options;
+    }
+
     protected function initDependencies(): void
     {
         $this->socket = $this->initSocket();
