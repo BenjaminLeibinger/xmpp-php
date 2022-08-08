@@ -125,7 +125,7 @@ class Options
 
     public function getResource(): string
     {
-        if (!$this->resource) {
+        if (!isset($this->resource)) {
             $this->resource = 'norgul_machine_'.time();
         }
 

@@ -37,7 +37,7 @@ class XmppClient
         $this->initStanzas($this->socket);
     }
 
-    public function connect()
+    public function connect(): void
     {
         $this->openStream();
         $this->auth->authenticate();
@@ -45,7 +45,7 @@ class XmppClient
         $this->sendInitialPresenceStanza();
     }
 
-    public function send(string $xml)
+    public function send(string $xml): void
     {
         $this->socket->send($xml);
     }
@@ -59,7 +59,7 @@ class XmppClient
         return $finalResponse;
     }
 
-    public function prettyPrint($response)
+    public function prettyPrint($response): void
     {
         if ($response) {
             $separator = "\n-------------\n";
@@ -67,24 +67,24 @@ class XmppClient
         }
     }
 
-    public function disconnect()
+    public function disconnect(): void
     {
         $this->socket->send(self::closeXmlStream());
         $this->socket->disconnect();
     }
 
-    protected function openStream()
+    protected function openStream(): void
     {
         $openStreamXml = self::openXmlStream($this->options->getHost());
         $this->socket->send($openStreamXml);
     }
 
-    protected function sendInitialPresenceStanza()
+    protected function sendInitialPresenceStanza(): void
     {
         $this->socket->send('<presence/>');
     }
 
-    protected function initStanzas($socket)
+    protected function initStanzas($socket): void
     {
         $this->auth = new Auth($socket);
         $this->iq = new Iq($socket);
@@ -111,7 +111,7 @@ class XmppClient
         return $response;
     }
 
-    protected function reconnect()
+    protected function reconnect(): void
     {
         $this->disconnect();
         $this->initDependencies();
