@@ -6,7 +6,7 @@ use Norgul\Xmpp\AuthTypes\Authenticable;
 
 class Auth extends Stanza
 {
-    public function authenticate()
+    public function authenticate(): void
     {
         $response = $this->socket->getResponseBuffer()->read();
         $options = $this->socket->getOptions();
@@ -24,7 +24,7 @@ class Auth extends Stanza
         $this->socket->send(self::openXmlStream($options->getHost()));
     }
 
-    protected function startTls()
+    protected function startTls(): void
     {
         $this->socket->send("<starttls xmlns='urn:ietf:params:xml:ns:xmpp-tls'/>");
         $response = $this->socket->getResponseBuffer()->read();

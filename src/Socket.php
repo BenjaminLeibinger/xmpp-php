@@ -10,13 +10,13 @@ class Socket
 {
     public $connection;
 
-    protected $responseBuffer;
-    protected $options;
+    protected Response $responseBuffer;
+    protected Options $options;
 
     /**
      * Period in microseconds for imposed timeout while doing socket_read().
      */
-    protected $timeout = 150000;
+    protected int $timeout = 150000;
 
     /**
      * Socket constructor.
@@ -37,17 +37,15 @@ class Socket
         $this->options = $options;
     }
 
-    public function disconnect()
+    public function disconnect(): void
     {
         fclose($this->connection);
     }
 
     /**
      * Sending XML stanzas to open socket.
-     *
-     * @param $xml
      */
-    public function send(string $xml)
+    public function send(string $xml): void
     {
         try {
             fwrite($this->connection, $xml);
@@ -62,7 +60,7 @@ class Socket
         $this->receive();
     }
 
-    public function receive()
+    public function receive(): void
     {
         $response = '';
         while ($out = fgets($this->connection)) {
@@ -77,12 +75,12 @@ class Socket
         $this->options->getLogger()->info(sprintf('RESPONSE %s', $this->getMethodMessage()), ['response' => $response]);
     }
 
-    protected function isAlive($socket)
+    protected function isAlive($socket): bool
     {
         return false !== $socket;
     }
 
-    public function setTimeout($timeout)
+    public function setTimeout($timeout): void
     {
         $this->timeout = $timeout;
     }

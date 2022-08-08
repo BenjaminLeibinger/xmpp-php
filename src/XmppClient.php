@@ -13,34 +13,22 @@ class XmppClient
 {
     use Xml;
 
-    /**
-     * @var Socket
-     */
-    protected $socket;
-    protected $options;
+    protected Socket $socket;
 
-    /**
-     * @var Auth
-     */
-    public $auth;
-    /**
-     * @var Iq
-     */
-    public $iq;
-    /**
-     * @var Presence
-     */
-    public $presence;
-    /**
-     * @var Message
-     */
-    public $message;
+    protected Options $options;
+
+    public Auth $auth;
+
+    public Iq $iq;
+
+    public Presence $presence;
+
+    public Message $message;
 
     public function __construct(Options $options)
     {
         $this->options = $options;
         $this->initDependencies();
-        $this->initSession();
     }
 
     protected function initDependencies(): void
@@ -102,14 +90,6 @@ class XmppClient
         $this->iq = new Iq($socket);
         $this->presence = new Presence($socket);
         $this->message = new Message($socket);
-    }
-
-    protected function initSession()
-    {
-        if (PHP_SESSION_NONE === session_status()) {
-            session_id(uniqid());
-            session_start();
-        }
     }
 
     protected function initSocket(): Socket

@@ -15,7 +15,7 @@ class DigestMD5Test extends TestCase
      */
     public $optionsStub;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->optionsStub = $this->createMock(Options::class);
         $this->optionsStub->method('getUsername')->willReturn('Foo');

@@ -13,27 +13,27 @@ class Options
     /**
      * Hostname of XMPP server.
      */
-    protected $host;
+    protected string $host;
     /**
      * XMPP server port. Usually 5222.
      */
-    protected $port = 5222;
+    protected int $port = 5222;
     /**
      * Protocol used for socket connection, defaults to TCP.
      */
-    protected $protocol = 'tcp';
+    protected string $protocol = 'tcp';
     /**
      * Username to authenticate on XMPP server.
      */
-    protected $username;
+    protected string $username;
     /**
      * Password to authenticate on XMPP server.
      */
-    protected $password;
+    protected string $password;
     /**
      * XMPP resource.
      */
-    protected $resource;
+    protected string $resource;
     /**
      * Custom logger interface.
      */
@@ -41,15 +41,13 @@ class Options
     /**
      * Use TLS if available.
      */
-    protected $useTls = true;
+    protected bool $useTls = true;
     /**
      * Auth type (Authentication/AuthTypes/).
-     *
-     * @var Authenticable
      */
-    protected $authType;
+    protected Authenticable $authType;
 
-    public function getHost()
+    public function getHost(): string
     {
         if (!$this->host) {
             $this->getLogger()->error(__METHOD__.'::'.__LINE__.
@@ -60,26 +58,26 @@ class Options
         return $this->host;
     }
 
-    public function setHost(string $host): Options
+    public function setHost(string $host): self
     {
         $this->host = trim($host);
 
         return $this;
     }
 
-    public function getPort()
+    public function getPort(): int
     {
         return $this->port;
     }
 
-    public function setPort(int $port): Options
+    public function setPort(int $port): self
     {
         $this->port = $port;
 
         return $this;
     }
 
-    public function getUsername()
+    public function getUsername(): string
     {
         if (!$this->username) {
             $this->getLogger()->error(__METHOD__.'::'.__LINE__.
@@ -93,7 +91,7 @@ class Options
     /**
      * Try to assign a resource if it exists. If bare JID is forwarded, this will default to your username.
      */
-    public function setUsername(string $username): Options
+    public function setUsername(string $username): self
     {
         $usernameResource = explode('/', $username);
 
@@ -107,7 +105,7 @@ class Options
         return $this;
     }
 
-    public function getPassword()
+    public function getPassword(): string
     {
         if (!$this->password) {
             $this->getLogger()->error(__METHOD__.'::'.__LINE__.
@@ -118,14 +116,14 @@ class Options
         return $this->password;
     }
 
-    public function setPassword(string $password): Options
+    public function setPassword(string $password): self
     {
         $this->password = $password;
 
         return $this;
     }
 
-    public function getResource()
+    public function getResource(): string
     {
         if (!$this->resource) {
             $this->resource = 'norgul_machine_'.time();
@@ -134,26 +132,26 @@ class Options
         return $this->resource;
     }
 
-    public function setResource(string $resource): Options
+    public function setResource(string $resource): self
     {
         $this->resource = trim($resource);
 
         return $this;
     }
 
-    public function getProtocol()
+    public function getProtocol(): string
     {
         return $this->protocol;
     }
 
-    public function setProtocol(string $protocol)
+    public function setProtocol(string $protocol): self
     {
         $this->protocol = $protocol;
 
         return $this;
     }
 
-    public function fullSocketAddress()
+    public function fullSocketAddress(): string
     {
         $protocol = $this->getProtocol();
         $host = $this->getHost();
@@ -162,7 +160,7 @@ class Options
         return "$protocol://$host:$port";
     }
 
-    public function fullJid()
+    public function fullJid(): string
     {
         $username = $this->getUsername();
         $resource = $this->getResource();
@@ -171,7 +169,7 @@ class Options
         return "$username@$host/$resource";
     }
 
-    public function bareJid()
+    public function bareJid(): string
     {
         $username = $this->getUsername();
         $host = $this->getHost();
@@ -179,12 +177,14 @@ class Options
         return "$username@$host";
     }
 
-    public function setLogger(LoggerInterface $logger)
+    public function setLogger(LoggerInterface $logger): self
     {
         $this->logger = $logger;
+
+        return $this;
     }
 
-    public function getLogger()
+    public function getLogger(): LoggerInterface
     {
         if (!$this->logger) {
             $this->logger = new Logger();
@@ -193,9 +193,11 @@ class Options
         return $this->logger;
     }
 
-    public function setUseTls(bool $enable)
+    public function setUseTls(bool $enable): self
     {
         $this->useTls = $enable;
+
+        return $this;
     }
 
     public function usingTls(): bool
@@ -203,16 +205,16 @@ class Options
         return $this->useTls;
     }
 
-    public function getAuthType()
+    public function getAuthType(): Authenticable
     {
-        if (!$this->authType) {
+        if (empty($this->authType)) {
             $this->setAuthType(new Plain($this));
         }
 
         return $this->authType;
     }
 
-    public function setAuthType(Authenticable $authType)
+    public function setAuthType(Authenticable $authType): self
     {
         $this->authType = $authType;
 

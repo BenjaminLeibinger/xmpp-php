@@ -9,7 +9,7 @@ abstract class Stanza
 {
     use Xml;
 
-    protected $socket;
+    protected Socket $socket;
 
     public function __construct(Socket $socket)
     {

@@ -4,7 +4,7 @@ namespace Norgul\Xmpp\Xml\Stanzas;
 
 class Iq extends Stanza
 {
-    public function getRoster()
+    public function getRoster(): void
     {
         $query = "<query xmlns='jabber:iq:roster'/>";
         $xml = "<iq type='get' id='{$this->uniqueId()}'>{$query}</iq>";
@@ -12,7 +12,7 @@ class Iq extends Stanza
         $this->socket->send($xml);
     }
 
-    public function addToRoster(string $name, string $forJid, string $from, string $groupName = null)
+    public function addToRoster(string $name, string $forJid, string $from, string $groupName = null): void
     {
         $group = $groupName ? "<group>{$groupName}</group>" : null;
         $item = "<item jid='{$forJid}' name='{$name}'>{$group}</item>";
@@ -22,7 +22,7 @@ class Iq extends Stanza
         $this->socket->send($xml);
     }
 
-    public function removeFromRoster(string $jid, string $myJid)
+    public function removeFromRoster(string $jid, string $myJid): void
     {
         $item = "<item jid='{$jid}' subscription='remove'/>";
         $query = "<query xmlns='jabber:iq:roster'>{$item}</query>";
@@ -31,7 +31,7 @@ class Iq extends Stanza
         $this->socket->send($xml);
     }
 
-    public function setResource(string $name)
+    public function setResource(string $name): void
     {
         if (!trim($name)) {
             return;
@@ -44,7 +44,7 @@ class Iq extends Stanza
         $this->socket->send($xml);
     }
 
-    public function setGroup(string $name, string $forJid)
+    public function setGroup(string $name, string $forJid): void
     {
         $group = "<group>{$name}</group>";
         $item = "<item jid='{$forJid}'>{$group}</item>";
@@ -54,7 +54,7 @@ class Iq extends Stanza
         $this->socket->send($xml);
     }
 
-    public function getServerVersion()
+    public function getServerVersion(): void
     {
         $query = "<query xmlns='jabber:iq:version'/>";
         $xml = "<iq type='get' id='{$this->uniqueId()}'>{$query}</iq>";
@@ -62,7 +62,7 @@ class Iq extends Stanza
         $this->socket->send($xml);
     }
 
-    public function getServerFeatures()
+    public function getServerFeatures(): void
     {
         $query = "<query xmlns='http://jabber.org/protocol/disco#info'></query>";
         $xml = "<iq type='get' id='{$this->uniqueId()}'>{$query}</iq>";
@@ -70,7 +70,7 @@ class Iq extends Stanza
         $this->socket->send($xml);
     }
 
-    public function getServerTime()
+    public function getServerTime(): void
     {
         $query = "<query xmlns='urn:xmpp:time'/>";
         $xml = "<iq type='get' id='{$this->uniqueId()}'>{$query}</iq>";
@@ -78,7 +78,7 @@ class Iq extends Stanza
         $this->socket->send($xml);
     }
 
-    public function getFeatures(string $forJid)
+    public function getFeatures(string $forJid): void
     {
         $query = "<query xmlns='http://jabber.org/protocol/disco#info'></query>";
         $xml = "<iq type='get' to='{$forJid}'>{$query}</iq>";
@@ -86,7 +86,7 @@ class Iq extends Stanza
         $this->socket->send($xml);
     }
 
-    public function ping()
+    public function ping(): void
     {
         $query = "<query xmlns='urn:xmpp:ping'/>";
         $xml = "<iq type='get' id='{$this->uniqueId()}'>{$query}</iq>";

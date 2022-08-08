@@ -16,7 +16,7 @@ class OptionsTest extends TestCase
      */
     public $options;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->host = 'www.host.com';
         $this->username = 'foo';

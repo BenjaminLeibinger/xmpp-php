@@ -28,7 +28,7 @@ class Logger implements LoggerInterface
     protected function writeToFile($file, $message)
     {
         try {
-            file_put_contents($file, $message, FILE_APPEND);
+            file_put_contents($file, $message.PHP_EOL, FILE_APPEND);
         } catch (Exception $e) {
             // silent fail
         }
@@ -76,7 +76,7 @@ class Logger implements LoggerInterface
 
     public function log($level, string|\Stringable $message, array $context = []): void
     {
-        $prefix = date('Y.m.d H:i:s').' '.session_id().($level ? " {$level}::" : ' ');
+        $prefix = date('Y.m.d H:i:s').' '.($level ? " {$level}::" : ' ');
         $this->writeToFile($this->logFile, sprintf('%s %s %s', $prefix, $message, json_encode($context)));
     }
 }

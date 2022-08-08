@@ -6,13 +6,11 @@ interface Buffer
 {
     /**
      * Write to buffer (add to array of values).
-     *
-     * @param $data
      */
-    public function write($data);
+    public function write(mixed $data): void;
 
     /**
      * Read from buffer and delete the data.
      */
-    public function read();
+    public function read(): string;
 }

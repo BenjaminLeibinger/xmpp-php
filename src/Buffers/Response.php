@@ -4,16 +4,16 @@ namespace Norgul\Xmpp\Buffers;
 
 class Response implements Buffer
 {
-    protected $response;
+    protected ?array $response = null;
 
-    public function write($data)
+    public function write(mixed $data): void
     {
         if ($data) {
             $this->response[] = $data;
         }
     }
 
-    public function read()
+    public function read(): string
     {
         $implodedResponse = $this->response ? implode('', $this->response) : '';
         $this->flush();
@@ -21,12 +21,12 @@ class Response implements Buffer
         return $implodedResponse;
     }
 
-    protected function flush()
+    protected function flush(): void
     {
         $this->response = null;
     }
 
-    public function getCurrentBufferData()
+    public function getCurrentBufferData(): ?array
     {
         return $this->response;
     }
