@@ -33,6 +33,12 @@ class Presence extends Stanza
         $this->socket->send($xml);
     }
 
+    public function setStatus(string $status): void
+    {
+        $xml = "<presence><show>{$status}</show></presence>";
+        $this->socket->send($xml);
+    }
+
     /**
      * Set priority to current resource by default, or optional other resource tied to the
      * current username.
